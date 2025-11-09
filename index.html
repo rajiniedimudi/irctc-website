@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRCTC - Indian Railway Catering and Tourism Corporation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #d32f2f;
+            --primary-dark: #b71c1c;
+            --secondary: #1976d2;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #757575;
+            --success: #388e3c;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-subtext {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-login {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-register {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            display: block;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-menu li a:hover, .nav-menu li a.active {
+            border-bottom: 2px solid white;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .booking-section {
+            flex: 2;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .ticket-section {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+
+        .passenger-section {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .passenger-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .passenger-header h3 {
+            color: var(--primary);
+        }
+
+        .btn-add {
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .passenger-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .btn-remove {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+        }
+
+        .btn-remove:hover {
+            background: #d32f2f;
+        }
+
+        .btn-book {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-book:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Ticket Styles */
+        .ticket {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .ticket-header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .ticket-status {
+            background: white;
+            color: var(--success);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .ticket-body {
+            padding: 15px;
+        }
+
+        .ticket-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: var(--dark);
+        }
+
+        .ticket-passengers {
+            margin-top: 15px;
+        }
+
+        .passenger-list {
+            list-style: none;
+        }
+
+        .passenger-item {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .ticket-footer {
+            background: #f5f5f5;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .ticket-id {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .ticket-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .no-ticket {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray);
+        }
+
+        .no-ticket i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .fare-estimate {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #2e7d32;
+            grid-column: 1 / -1;
+        }
+
+        .pnr-search {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            background: #f9f9f9;
+        }
+
+        .connection-status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .connected {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #4caf50;
+        }
+
+        .disconnected {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #f44336;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px 0;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .booking-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .passenger-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .ticket-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <i class="fas fa-train fa-2x"></i>
+                    <div>
+                        <div class="logo-text">IRCTC</div>
+                        <div class="logo-subtext">Indian Railway Catering and Tourism Corporation</div>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-login"><i class="fas fa-user"></i> Login</button>
+                    <button class="btn btn-register"><i class="fas fa-user-plus"></i> Register</button>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-ticket-alt"></i> Book Ticket</a></li>
+                <li><a href="#"><i class="fas fa-list"></i> PNR Status</a></li>
+                <li><a href="#"><i class="fas fa-train"></i> Train Schedule</a></li>
+                <li><a href="#"><i class="fas fa-percentage"></i> Fare Enquiry</a></li>
+                <li><a href="#"><i class="fas fa-utensils"></i> Food Order</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Booking Section -->
+            <section class="booking-section">
+                <div class="section-header">
+                    <i class="fas fa-ticket-alt"></i> Book Train Tickets
+                </div>
+                <div class="section-body">
+                    <form id="booking-form">
+                        <div class="booking-form">
+                            <div class="form-group">
+                                <label for="from-station">From Station</label>
+                                <select id="from-station" required>
+                                    <option value="">Select Station</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="to-station">To Station</label>
+                                <select id="to-station" required>
+                                    <option value="">Select Station</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="journey-date">Journey Date</label>
+                                <input type="date" id="journey-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="class">Class</label>
+                                <select id="class" required>
+                                    <option value="">Select Class</option>
+                                    <option value="SL">Sleeper (SL)</option>
+                                    <option value="3A">AC 3 Tier (3A)</option>
+                                    <option value="2A">AC 2 Tier (2A)</option>
+                                    <option value="1A">AC First Class (1A)</option>
+                                    <option value="CC">AC Chair Car (CC)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quota">Quota</label>
+                                <select id="quota" required>
+                                    <option value="General">General</option>
+                                    <option value="Ladies">Ladies</option>
+                                    <option value="Tatkal">Tatkal</option>
+                                    <option value="Premium Tatkal">Premium Tatkal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="train">Select Train</label>
+                                <select id="train" required>
+                                    <option value="">Select Train</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="passenger-section">
+                            <div class="passenger-header">
+                                <h3><i class="fas fa-users"></i> Passenger Details</h3>
+                                <button type="button" class="btn btn-add" id="add-passenger">
+                                    <i class="fas fa-plus"></i> Add Passenger
+                                </button>
+                            </div>
+                            <div id="passenger-forms">
+                                <div class="passenger-form">
+                                    <div class="form-group">
+                                        <label for="passenger-name-1">Full Name</label>
+                                        <input type="text" id="passenger-name-1" placeholder="Enter full name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="passenger-age-1">Age</label>
+                                        <input type="number" id="passenger-age-1" min="1" max="120" placeholder="Age" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="passenger-gender-1">Gender</label>
+                                        <select id="passenger-gender-1" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="passenger-berth-1">Berth Preference</label>
+                                        <select id="passenger-berth-1">
+                                            <option value="No Preference">No Preference</option>
+                                            <option value="Lower">Lower</option>
+                                            <option value="Middle">Middle</option>
+                                            <option value="Upper">Upper</option>
+                                            <option value="Side Lower">Side Lower</option>
+                                            <option value="Side Upper">Side Upper</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-book">
+                            <i class="fas fa-ticket-alt"></i> Book Ticket
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Ticket Section -->
+            <section class="ticket-section">
+                <div class="section-header">
+                    <i class="fas fa-receipt"></i> Your Tickets
+                </div>
+                <!-- PNR Search Section -->
+                <div class="pnr-search">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="pnr-search-input" placeholder="Enter PNR number to search" 
+                               style="flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                        <button onclick="searchTicketByPNR()" class="btn btn-action" style="padding: 10px 15px;">
+                            <i class="fas fa-search"></i> Search PNR
+                        </button>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                        Search any ticket by PNR number from database
+                    </div>
+                </div>
+                <div class="section-body" id="ticket-container">
+                    <div class="no-ticket">
+                        <i class="fas fa-ticket-alt"></i>
+                        <p>No tickets booked yet. Complete the booking form to get your e-ticket!</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Book Ticket</a></li>
+                        <li><a href="#">Cancel Ticket</a></li>
+                        <li><a href="#">PNR Status</a></li>
+                        <li><a href="#">Train Schedule</a></li>
+                        <li><a href="#">Seat Availability</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About IRCTC</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">IRCTC Tourism</a></li>
+                        <li><a href="#">Retiring Rooms</a></li>
+                        <li><a href="#">Catering Services</a></li>
+                        <li><a href="#">Coach Position</a></li>
+                        <li><a href="#">Train Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> 139 (Toll Free)</li>
+                        <li><i class="fas fa-envelope"></i> care@irctc.co.in</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New Delhi, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Indian Railway Catering and Tourism Corporation. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+  <script>
+    // Global variables
+    let passengerCount = 1;
+   const BACKEND_URL = 'https://proactive-courtesy-production-f735.up.railway.app/api';
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('IRCTC System Initialized');
+        loadStations();
+        setMinDate();
+        setupEventListeners();
+        testBackendConnection();
+    });
+
+    // Test backend connection
+    async function testBackendConnection() {
+        try {
+            console.log('🔄 Testing backend connection...');
+            const response = await fetch(`${BACKEND_URL}/tickets/test`);
+            
+            if (response.ok) {
+                const result = await response.text();
+                console.log('✅ Backend connected:', result);
+                showConnectionStatus('✅ Backend Connected - Ready to book tickets!', 'connected');
+                loadTicketsFromBackend();
+            } else {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        } catch (error) {
+            console.error('❌ Backend connection failed:', error);
+            showConnectionStatus('❌ Backend Not Available - Please start the backend server', 'disconnected');
+        }
+    }
+
+    function showConnectionStatus(message, type) {
+        let statusDiv = document.getElementById('connection-status');
+        if (!statusDiv) {
+            statusDiv = document.createElement('div');
+            statusDiv.id = 'connection-status';
+            document.querySelector('.booking-section .section-body').insertBefore(statusDiv, document.getElementById('booking-form'));
+        }
+        statusDiv.className = `connection-status ${type}`;
+        statusDiv.innerHTML = `<i class="fas ${type === 'connected' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i> ${message}`;
+    }
+
+    // Load tickets from backend
+    async function loadTicketsFromBackend() {
+        try {
+            const response = await fetch(`${BACKEND_URL}/tickets`);
+            if (response.ok) {
+                const tickets = await response.json();
+                if (tickets.length > 0) {
+                    displayTicket(tickets[tickets.length - 1]);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading tickets:', error);
+        }
+    }
+
+    // Handle form submission - NOW WITH BACKEND!
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        
+        if (validateForm()) {
+            const formData = collectFormData();
+            
+            try {
+                // Send to backend
+                const response = await fetch(`${BACKEND_URL}/tickets/book`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+    mode: 'cors' // Explicitly set CORS mode
+});
+
+                if (response.ok) {
+                    const ticket = await response.json();
+                    displayTicket(ticket);
+                    resetForm();
+                    showSuccessMessage(`Ticket booked successfully! PNR: ${ticket.pnr}`);
+                } else {
+                    throw new Error('Booking failed');
+                }
+            } catch (error) {
+                console.error('Booking error:', error);
+                showError('Booking failed. Please check backend connection.');
+            }
+        }
+    }
+
+    // Search ticket by PNR - WITH BACKEND!
+    async function searchTicketByPNR() {
+        const pnrToSearch = document.getElementById('pnr-search-input').value.trim();
+        
+        if (!pnrToSearch) {
+            showError('Please enter a PNR number');
+            return;
+        }
+        
+        try {
+            const response = await fetch(`${BACKEND_URL}/tickets/search?pnr=${pnrToSearch}`);
+            if (response.ok) {
+                const ticket = await response.json();
+                if (ticket.error) {
+                    showError('Ticket not found. Please check PNR number.');
+                } else {
+                    displayTicket(ticket);
+                    showSuccessMessage('Ticket found!');
+                }
+            } else {
+                throw new Error('Search failed');
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            showError('Search failed. Please check backend connection.');
+        }
+    }
+
+    // ========== UI FUNCTIONS ==========
+
+    // Set minimum date to today
+    function setMinDate() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('journey-date').min = today;
+        
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('journey-date').value = tomorrow.toISOString().split('T')[0];
+    }
+
+    // Load station data
+    function loadStations() {
+        const stations = [
+            { code: 'NDLS', name: 'New Delhi' },
+            { code: 'BCT', name: 'Mumbai Central' },
+            { code: 'CNB', name: 'Kanpur Central' },
+            { code: 'HWH', name: 'Howrah Junction' },
+            { code: 'SBC', name: 'Bangalore City' },
+            { code: 'MAS', name: 'Chennai Central' },
+            { code: 'ADI', name: 'Ahmedabad Junction' },
+            { code: 'PNBE', name: 'Patna Junction' }
+        ];
+
+        const fromSelect = document.getElementById('from-station');
+        const toSelect = document.getElementById('to-station');
+
+        fromSelect.innerHTML = '<option value="">Select Station</option>';
+        toSelect.innerHTML = '<option value="">Select Station</option>';
+
+        stations.forEach(station => {
+            const option1 = new Option(`${station.name} (${station.code})`, station.code);
+            const option2 = new Option(`${station.name} (${station.code})`, station.code);
+            fromSelect.add(option1);
+            toSelect.add(option2);
+        });
+    }
+
+    // Setup all event listeners
+    function setupEventListeners() {
+        document.getElementById('booking-form').addEventListener('submit', handleFormSubmit);
+        document.getElementById('add-passenger').addEventListener('click', addPassengerForm);
+        document.getElementById('from-station').addEventListener('change', updateTrains);
+        document.getElementById('to-station').addEventListener('change', updateTrains);
+        document.getElementById('class').addEventListener('change', updateFareEstimate);
+    }
+
+    // Validate the entire form
+    function validateForm() {
+        const requiredFields = [
+            'from-station', 'to-station', 'journey-date', 
+            'class', 'quota', 'train'
+        ];
+
+        for (let fieldId of requiredFields) {
+            const field = document.getElementById(fieldId);
+            if (!field.value) {
+                showError(`${fieldId.replace('-', ' ')} is required`);
+                field.focus();
+                return false;
+            }
+        }
+
+        const fromStation = document.getElementById('from-station').value;
+        const toStation = document.getElementById('to-station').value;
+        
+        if (fromStation === toStation) {
+            showError('From and To stations cannot be the same');
+            return false;
+        }
+
+        if (!validatePassengers()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Validate passenger forms
+    function validatePassengers() {
+        const passengerForms = document.querySelectorAll('.passenger-form');
+        
+        for (let i = 0; i < passengerForms.length; i++) {
+            const name = document.getElementById(`passenger-name-${i+1}`).value;
+            const age = document.getElementById(`passenger-age-${i+1}`).value;
+            
+            if (!name || !age) {
+                showError(`Please fill all details for Passenger ${i+1}`);
+                return false;
+            }
+            
+            if (age < 1 || age > 120) {
+                showError(`Please enter valid age for Passenger ${i+1}`);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    // Collect all form data
+    function collectFormData() {
+        const passengers = [];
+        const passengerForms = document.querySelectorAll('.passenger-form');
+        
+        passengerForms.forEach((form, index) => {
+            passengers.push({
+                name: document.getElementById(`passenger-name-${index+1}`).value,
+                age: parseInt(document.getElementById(`passenger-age-${index+1}`).value),
+                gender: document.getElementById(`passenger-gender-${index+1}`).value,
+                berth: document.getElementById(`passenger-berth-${index+1}`).value
+            });
+        });
+
+        return {
+            fromStation: document.getElementById('from-station').value,
+            toStation: document.getElementById('to-station').value,
+            journeyDate: document.getElementById('journey-date').value,
+            class: document.getElementById('class').value,
+            quota: document.getElementById('quota').value,
+            train: document.getElementById('train').value,
+            passengers: passengers
+        };
+    }
+
+    // Add new passenger form
+    function addPassengerForm() {
+        if (passengerCount >= 6) {
+            showError('Maximum 6 passengers allowed per booking');
+            return;
+        }
+
+        passengerCount++;
+        const newPassengerForm = document.createElement('div');
+        newPassengerForm.className = 'passenger-form';
+        newPassengerForm.innerHTML = `
+            <div class="form-group">
+                <label for="passenger-name-${passengerCount}">Full Name</label>
+                <input type="text" id="passenger-name-${passengerCount}" placeholder="Enter full name" required>
+            </div>
+            <div class="form-group">
+                <label for="passenger-age-${passengerCount}">Age</label>
+                <input type="number" id="passenger-age-${passengerCount}" min="1" max="120" placeholder="Age" required>
+            </div>
+            <div class="form-group">
+                <label for="passenger-gender-${passengerCount}">Gender</label>
+                <select id="passenger-gender-${passengerCount}" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="passenger-berth-${passengerCount}">Berth Preference</label>
+                <select id="passenger-berth-${passengerCount}">
+                    <option value="No Preference">No Preference</option>
+                    <option value="Lower">Lower</option>
+                    <option value="Middle">Middle</option>
+                    <option value="Upper">Upper</option>
+                    <option value="Side Lower">Side Lower</option>
+                    <option value="Side Upper">Side Upper</option>
+                </select>
+            </div>
+            <button type="button" class="btn-remove" onclick="removePassenger(${passengerCount})">
+                <i class="fas fa-times"></i> Remove
+            </button>
+        `;
+
+        document.getElementById('passenger-forms').appendChild(newPassengerForm);
+        updateFareEstimate();
+    }
+
+    // Remove passenger form
+    function removePassenger(index) {
+        if (passengerCount <= 1) {
+            showError('At least one passenger is required');
+            return;
+        }
+
+        const formToRemove = document.querySelector(`#passenger-forms .passenger-form:nth-child(${index})`);
+        if (formToRemove) {
+            formToRemove.remove();
+            passengerCount--;
+            updateFareEstimate();
+        }
+    }
+
+    // Update available trains based on stations
+    function updateTrains() {
+        const fromStation = document.getElementById('from-station').value;
+        const toStation = document.getElementById('to-station').value;
+        const trainSelect = document.getElementById('train');
+
+        trainSelect.innerHTML = '<option value="">Select Train</option>';
+
+        if (!fromStation || !toStation || fromStation === toStation) {
+            return;
+        }
+
+        const trains = getTrainsForRoute(fromStation, toStation);
+        
+        trains.forEach(train => {
+            const option = new Option(
+                `${train.name} (${train.number}) - ${train.departure} → ${train.arrival}`, 
+                train.number
+            );
+            trainSelect.add(option);
+        });
+
+        updateFareEstimate();
+    }
+
+    // Get trains for specific route (mock data)
+    function getTrainsForRoute(from, to) {
+        const trainData = {
+            'NDLS-BCT': [
+                { number: '12951', name: 'Rajdhani Express', departure: '16:25', arrival: '08:35' },
+                { number: '12953', name: 'August Kranti Rajdhani', departure: '17:10', arrival: '09:25' }
+            ],
+            'NDLS-HWH': [
+                { number: '12301', name: 'Howrah Rajdhani', departure: '16:55', arrival: '10:05' },
+                { number: '12305', name: 'Poorva Express', departure: '15:50', arrival: '11:00' }
+            ],
+            'BCT-NDLS': [
+                { number: '12952', name: 'Mumbai Rajdhani', departure: '16:40', arrival: '08:50' }
+            ]
+        };
+
+        const key = `${from}-${to}`;
+        return trainData[key] || [
+            { number: '12627', name: 'Karnataka Express', departure: '19:15', arrival: '06:45' },
+            { number: '12629', name: 'Sampark Kranti', departure: '14:30', arrival: '04:20' }
+        ];
+    }
+
+    // Update fare estimate
+    function updateFareEstimate() {
+        const classType = document.getElementById('class').value;
+        const passengerForms = document.querySelectorAll('.passenger-form');
+        const passengerCount = passengerForms.length;
+        
+        if (!classType || passengerCount === 0) return;
+
+        const fare = calculateFare(classType, passengerCount);
+        let fareElement = document.getElementById('fare-estimate');
+        
+        if (!fareElement) {
+            fareElement = document.createElement('div');
+            fareElement.id = 'fare-estimate';
+            fareElement.className = 'fare-estimate';
+            document.querySelector('.booking-form').appendChild(fareElement);
+        }
+        
+        fareElement.textContent = `Estimated Fare: ₹${fare}`;
+    }
+
+    // Calculate fare based on class and passengers
+    function calculateFare(classType, passengerCount) {
+        const fares = {
+            'SL': 500,
+            '3A': 1200,
+            '2A': 1800,
+            '1A': 2500,
+            'CC': 800
+        };
+
+        const baseFare = fares[classType] || 500;
+        return baseFare * passengerCount;
+    }
+
+    // Display ticket in the ticket section
+    function displayTicket(ticket) {
+        const ticketHTML = createTicketHTML(ticket);
+        document.getElementById('ticket-container').innerHTML = ticketHTML;
+    }
+
+    // Create HTML for ticket display
+    function createTicketHTML(ticket) {
+        return `
+            <div class="ticket">
+                <div class="ticket-header">
+                    <div class="ticket-title">E-Ticket</div>
+                    <div class="ticket-status">${ticket.status || 'CONFIRMED'}</div>
+                </div>
+                <div class="ticket-body">
+                    <div class="ticket-info">
+                        <div class="info-item">
+                            <div class="info-label">PNR Number</div>
+                            <div class="info-value">${ticket.pnr}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Train</div>
+                            <div class="info-value">${getTrainName(ticket.train)} (${ticket.train})</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">From</div>
+                            <div class="info-value">${getStationName(ticket.fromStation)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">To</div>
+                            <div class="info-value">${getStationName(ticket.toStation)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Journey Date</div>
+                            <div class="info-value">${formatDate(ticket.journeyDate)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Class</div>
+                            <div class="info-value">${getClassName(ticket.class)}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Quota</div>
+                            <div class="info-value">${ticket.quota}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Total Fare</div>
+                            <div class="info-value">₹${ticket.totalFare}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ticket-passengers">
+                        <h4>Passenger Details</h4>
+                        <ul class="passenger-list">
+                            ${ticket.passengers.map(passenger => `
+                                <li class="passenger-item">
+                                    <span>${passenger.name} (${passenger.age} yrs, ${passenger.gender})</span>
+                                    <span>Berth: ${passenger.berth}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="ticket-id">Booking ID: IRCTC${ticket.id}</div>
+                    <div class="ticket-actions">
+                        <button class="btn btn-action" onclick="printTicket()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button class="btn btn-action" onclick="downloadTicket('${ticket.pnr}')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Helper functions
+    function getTrainName(trainNumber) {
+        const trains = {
+            '12951': 'Rajdhani Express',
+            '12953': 'August Kranti Rajdhani',
+            '12301': 'Howrah Rajdhani',
+            '12305': 'Poorva Express',
+            '12952': 'Mumbai Rajdhani',
+            '12627': 'Karnataka Express',
+            '12629': 'Sampark Kranti'
+        };
+        return trains[trainNumber] || 'Express Train';
+    }
+
+    function getStationName(stationCode) {
+        const stations = {
+            'NDLS': 'New Delhi',
+            'BCT': 'Mumbai Central',
+            'CNB': 'Kanpur Central',
+            'HWH': 'Howrah Junction',
+            'SBC': 'Bangalore City',
+            'MAS': 'Chennai Central',
+            'ADI': 'Ahmedabad Junction',
+            'PNBE': 'Patna Junction'
+        };
+        return stations[stationCode] || stationCode;
+    }
+
+    function getClassName(classCode) {
+        const classes = {
+            'SL': 'Sleeper',
+            '3A': 'AC 3 Tier',
+            '2A': 'AC 2 Tier',
+            '1A': 'AC First Class',
+            'CC': 'AC Chair Car'
+        };
+        return classes[classCode] || classCode;
+    }
+
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Reset form after submission
+    function resetForm() {
+        document.getElementById('booking-form').reset();
+        passengerCount = 1;
+        
+        const passengerForms = document.getElementById('passenger-forms');
+        const firstForm = passengerForms.querySelector('.passenger-form');
+        passengerForms.innerHTML = '';
+        passengerForms.appendChild(firstForm);
+        
+        document.getElementById('passenger-name-1').value = '';
+        document.getElementById('passenger-age-1').value = '';
+        document.getElementById('passenger-gender-1').value = 'Male';
+        document.getElementById('passenger-berth-1').value = 'No Preference';
+        
+        const fareElement = document.getElementById('fare-estimate');
+        if (fareElement) {
+            fareElement.remove();
+        }
+        
+        setMinDate();
+    }
+
+    // Utility functions
+    function showError(message) {
+        alert('❌ Error: ' + message);
+    }
+
+    function showSuccessMessage(message) {
+        alert('✅ ' + message);
+    }
+
+    function printTicket() {
+        window.print();
+    }
+
+    function downloadTicket(pnr) {
+        alert('Download functionality would be implemented here for ticket: ' + pnr);
+    }
+</script>
+</body>
+</html>
