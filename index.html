@@ -697,7 +697,7 @@
   <script>
     // Global variables
     let passengerCount = 1;
-   const BACKEND_URL = 'https://proactive-courtesy-production-f735.up.railway.app/api';
+    const BACKEND_URL = 'https://proactive-courtesy-production-f735.up.railway.app/api';let currentUser = null;
 
     // Initialize the application
     document.addEventListener('DOMContentLoaded', function() {
@@ -706,7 +706,117 @@
         setMinDate();
         setupEventListeners();
         testBackendConnection();
+        checkLoggedInUser();
     });
+
+    // Authentication functions
+    function checkLoggedInUser() {
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            updateUIAfterLogin();
+        }
+    }
+
+    async function loginUser(email, password) {
+        try {
+            const response = await fetch(`${BACKEND_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                currentUser = result.user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showSuccessMessage(`Welcome back, ${currentUser.fullName}!`);
+                updateUIAfterLogin();
+                return true;
+            } else {
+                showError(result.error);
+                return false;
+            }
+        } catch (error) {
+            showError('Login failed: ' + error.message);
+            return false;
+        }
+    }
+
+    async function registerUser(userData) {
+        try {
+            const response = await fetch(`${BACKEND_URL}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                showSuccessMessage('Registration successful! Please login.');
+                return true;
+            } else {
+                showError(result.error);
+                return false;
+            }
+        } catch (error) {
+            showError('Registration failed: ' + error.message);
+            return false;
+        }
+    }
+
+    function updateUIAfterLogin() {
+        document.querySelector('.btn-login').style.display = 'none';
+        document.querySelector('.btn-register').style.display = 'none';
+        
+        // Add user welcome message
+        const userWelcome = document.createElement('div');
+        userWelcome.className = 'user-welcome';
+        userWelcome.innerHTML = `
+            <span style="color: white; margin-right: 10px;">Welcome, ${currentUser.fullName}</span>
+            <button onclick="logout()" class="btn" style="background: #ff4444; color: white;">Logout</button>
+        `;
+        document.querySelector('.user-actions').appendChild(userWelcome);
+    }
+
+    function logout() {
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        document.querySelector('.user-welcome')?.remove();
+        document.querySelector('.btn-login').style.display = 'inline-block';
+        document.querySelector('.btn-register').style.display = 'inline-block';
+        showSuccessMessage('Logged out successfully');
+    }
+
+    function showLoginModal() {
+        const email = prompt('Enter your email:');
+        if (!email) return;
+        
+        const password = prompt('Enter your password:');
+        if (!password) return;
+        
+        loginUser(email, password);
+    }
+
+    function showRegisterModal() {
+        const fullName = prompt('Enter your full name:');
+        if (!fullName) return;
+        
+        const email = prompt('Enter your email:');
+        if (!email) return;
+        
+        const phone = prompt('Enter your phone number:');
+        const password = prompt('Enter your password:');
+        if (!password) return;
+        
+        registerUser({ fullName, email, phone: phone || '', password });
+    }
 
     // Test backend connection
     async function testBackendConnection() {
@@ -759,19 +869,26 @@
         e.preventDefault();
         console.log('Form submitted');
         
+        // Check if user is logged in
+        if (!currentUser) {
+            showError('Please login to book tickets');
+            showLoginModal();
+            return;
+        }
+        
         if (validateForm()) {
             const formData = collectFormData();
             
             try {
                 // Send to backend
                 const response = await fetch(`${BACKEND_URL}/tickets/book`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-    mode: 'cors' // Explicitly set CORS mode
-});
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                    mode: 'cors'
+                });
 
                 if (response.ok) {
                     const ticket = await response.json();
@@ -818,12 +935,29 @@
 
     // ========== UI FUNCTIONS ==========
 
+    // Setup all event listeners
+    function setupEventListeners() {
+        document.getElementById('booking-form').addEventListener('submit', handleFormSubmit);
+        document.getElementById('add-passenger').addEventListener('click', addPassengerForm);
+        document.getElementById('from-station').addEventListener('change', updateTrains);
+        document.getElementById('to-station').addEventListener('change', updateTrains);
+        document.getElementById('class').addEventListener('change', updateFareEstimate);
+        
+        // Add authentication event listeners
+        document.querySelector('.btn-login').addEventListener('click', showLoginModal);
+        document.querySelector('.btn-register').addEventListener('click', showRegisterModal);
+    }
+
+    // [KEEP ALL YOUR EXISTING UI FUNCTIONS - they remain the same]
+    // setMinDate(), loadStations(), validateForm(), collectFormData(), 
+    // addPassengerForm(), removePassenger(), updateTrains(), updateFareEstimate(),
+    // displayTicket(), createTicketHTML(), resetForm(), etc.
+
     // Set minimum date to today
     function setMinDate() {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('journey-date').min = today;
         
-        // Set default date to tomorrow
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         document.getElementById('journey-date').value = tomorrow.toISOString().split('T')[0];
@@ -854,15 +988,6 @@
             fromSelect.add(option1);
             toSelect.add(option2);
         });
-    }
-
-    // Setup all event listeners
-    function setupEventListeners() {
-        document.getElementById('booking-form').addEventListener('submit', handleFormSubmit);
-        document.getElementById('add-passenger').addEventListener('click', addPassengerForm);
-        document.getElementById('from-station').addEventListener('change', updateTrains);
-        document.getElementById('to-station').addEventListener('change', updateTrains);
-        document.getElementById('class').addEventListener('change', updateFareEstimate);
     }
 
     // Validate the entire form
